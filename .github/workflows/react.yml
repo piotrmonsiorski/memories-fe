@@ -19,8 +19,7 @@ jobs:
         uses: actions/setup-node@v1
         with:
           node-version: 14
-      - run: yarn install
-      - run: yarn predeploy
+      - run: yarn
       - name: Deploy
         run: |
           git config --global user.name $user_name
