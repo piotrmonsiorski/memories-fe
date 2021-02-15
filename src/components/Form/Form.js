@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { TextField, Button, Typography, Paper } from '@material-ui/core';
 import FileBase from 'react-file-base64';
 import { useDispatch, useSelector } from 'react-redux';
 import { createPost, updatePost } from 'redux/actions/posts';
+import { TextField, Button, Typography, Paper } from '@material-ui/core';
 import useStyles from './styles';
 
 const Form = ({ editedPost, setEditedPost }) => {
@@ -21,9 +21,11 @@ const Form = ({ editedPost, setEditedPost }) => {
     setPostData({ ...postData, [key]: value });
   };
 
-  const post = useSelector(state =>
-    state.posts.find(post => post._id === editedPost)
-  );
+  const post = useSelector(state => {
+    if (editedPost) {
+      return state.posts?.find(post => post._id === editedPost);
+    }
+  });
   useEffect(() => {
     if (post) setPostData(post);
   }, [post]);

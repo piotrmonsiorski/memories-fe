@@ -1,18 +1,18 @@
-import { actionTypes } from '../actions';
+import { postActionTypes } from '../actions';
 
-const initialState = [];
+const initialState = {};
 
 const postsReducer = (state = initialState, action) => {
   switch (action.type) {
-    case actionTypes.FETCH_ALL:
+    case postActionTypes.FETCH_ALL:
       return action.payload;
-    case actionTypes.CREATE:
+    case postActionTypes.CREATE:
       return [...state, action.payload];
-    case actionTypes.UPDATE:
+    case postActionTypes.UPDATE:
       return state.map(post =>
         post._id === action.payload._id ? action.payload : post
       );
-    case actionTypes.DELETE:
+    case postActionTypes.DELETE:
       return state.filter(post => post._id !== action.payload);
     default:
       return state;
