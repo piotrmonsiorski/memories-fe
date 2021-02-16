@@ -28,9 +28,7 @@ const Navbar = () => {
     }
 
     setUser(JSON.parse(localStorage.getItem('profile')));
-    // debugger;
-    // console.log('setUser', JSON.parse(localStorage.getItem('profile')));
-  }, [location]);
+  }, [location]); // eslint-disable-line react-hooks/exhaustive-deps
 
   const handleLogout = () => {
     dispatch({ type: authActionTypes.LOGOUT });
