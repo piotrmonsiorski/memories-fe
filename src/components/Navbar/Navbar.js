@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Link, useHistory, useLocation } from 'react-router-dom';
 import { AppBar, Avatar, Typography, Button, Toolbar } from '@material-ui/core';
 import { useDispatch } from 'react-redux';
+import decode from 'jwt-decode';
 import memoriesUrl from 'images/memories.png';
 import useStyles from './styles';
 import { authActionTypes } from 'redux/actions';
@@ -17,9 +18,18 @@ const Navbar = () => {
   useEffect(() => {
     const token = user?.token;
 
-    //JWT
+    if (token) {
+      const decodedToken = decode(token);
+      console.log('decodedToken.exp: ', decodedToken.exp * 1000);
+      console.log('Date().getTime(): ', new Date().getTime());
+      if (decodedToken.exp * 1000 < new Date().getTime()) {
+        handleLogout();
+      }
+    }
 
     setUser(JSON.parse(localStorage.getItem('profile')));
+    // debugger;
+    // console.log('setUser', JSON.parse(localStorage.getItem('profile')));
   }, [location]);
 
   const handleLogout = () => {

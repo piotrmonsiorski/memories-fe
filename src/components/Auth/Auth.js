@@ -15,22 +15,38 @@ import Icon from './icon';
 import Input from './Input';
 import useStyles from './styles';
 import { authActionTypes } from 'redux/actions';
+import { signin, signup } from 'redux/actions/auth';
 
 const Auth = ({ formType = 'signin' }) => {
   const classes = useStyles();
   const dispatch = useDispatch();
   const history = useHistory();
 
-  const state = null;
+  const initialFormDate = {
+    firstName: '',
+    lastName: '',
+    email: '',
+    password: '',
+    confirmPassword: '',
+  };
+  const [formData, setFormData] = useState(initialFormDate);
 
-  const handleSubmit = () => {};
+  const handleSubmit = e => {
+    e.preventDefault();
+    if (isSignup) {
+      dispatch(signup(formData, history));
+    } else {
+      dispatch(signin(formData, history));
+    }
+  };
 
-  const handleChange = () => {};
+  const handleChange = e => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
 
   const handleGoogleSuccess = async res => {
     const result = res?.profileObj;
     const token = res?.tokenId;
-
     try {
       dispatch({ type: authActionTypes.AUTH, data: { result, token } });
       history.push('/');

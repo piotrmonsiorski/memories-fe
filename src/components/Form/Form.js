@@ -9,10 +9,11 @@ const Form = ({ editedPost, setEditedPost }) => {
   const classes = useStyles();
   const dispatch = useDispatch();
 
+  const user = JSON.parse(localStorage.getItem('profile'));
+
   const emptyPost = {
     title: '',
     message: '',
-    creator: '',
     tags: [''],
     selectedFile: '',
   };
@@ -40,11 +41,20 @@ const Form = ({ editedPost, setEditedPost }) => {
     if (editedPost) {
       dispatch(updatePost(editedPost, postData));
     } else {
-      console.log('postData: ', postData);
-      dispatch(createPost(postData));
+      dispatch(createPost({ ...postData, creatorName: user?.result?.name }));
     }
     clearForm();
   };
+
+  if (!user?.result?.name) {
+    return (
+      <Paper className={classes.paper}>
+        <Typography variant="h6" align="center">
+          Sign in to crate new memories and like existing ones
+        </Typography>
+      </Paper>
+    );
+  }
 
   return (
     <Paper className={classes.paper}>
@@ -57,14 +67,6 @@ const Form = ({ editedPost, setEditedPost }) => {
         <Typography variant="h6">
           {editedPost ? 'Editing' : 'Creating'} a memory
         </Typography>
-        <TextField
-          name="creator"
-          variant="outlined"
-          label="Creator"
-          fullWidth
-          value={postData.creator}
-          onChange={e => setPost('creator', e.target.value)}
-        />
         <TextField
           name="title"
           variant="outlined"

@@ -1,22 +1,29 @@
 import { authActionTypes } from './';
+import * as api from 'api/index';
 
-export const getPosts = () => async dispatch => {
+export const signin = (formData, history) => async dispatch => {
   try {
+    const { data } = await api.signIn(formData);
+
     dispatch({
       type: authActionTypes.AUTH,
-      payload: {},
+      data,
     });
+    history.push('/');
   } catch (error) {
     console.log(error);
   }
 };
 
-export const createPost = post => async dispatch => {
+export const signup = (formData, history) => async dispatch => {
   try {
+    const { data } = await api.signUp(formData);
+
     dispatch({
-      type: authActionTypes.LOGOUT,
-      payload: {},
+      type: authActionTypes.AUTH,
+      data,
     });
+    history.push('/');
   } catch (error) {
     console.log(error);
   }

@@ -12,6 +12,10 @@ const postsReducer = (state = initialState, action) => {
       return state.map(post =>
         post._id === action.payload._id ? action.payload : post
       );
+    case postActionTypes.LIKE:
+      return state.map(post =>
+        post._id === action.payload._id ? action.payload : post
+      );
     case postActionTypes.DELETE:
       return state.filter(post => post._id !== action.payload);
     default:
